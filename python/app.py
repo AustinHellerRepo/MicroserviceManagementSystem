@@ -91,7 +91,7 @@ def get_component_output(component_uuid: str, json_data_array: List[Dict], compo
 
 @app.route("/v1/test/health", methods=["GET", "POST"])
 def test_health():
-    return { "is_healthy": True }
+    return {"is_healthy": True}
 
 
 @app.route("/v1/test/json/form", methods=["POST"])

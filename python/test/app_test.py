@@ -4,7 +4,7 @@ import app as flask_app
 import json
 
 
-class AppTest2(unittest.TestCase):
+class AppTest(unittest.TestCase):
 
 	def test_initialize(self):
 
@@ -156,7 +156,11 @@ class AppTest2(unittest.TestCase):
 
 		client = flask_app.app.test_client()
 
-		response = client.get("/v1/test/component_manager_api")
+		response = client.post("/v1/test/component_manager_api",
+			json={
+				"component_manager_api_base_url": "http://0.0.0.0:8081"
+			}
+		)
 
 		print(f"response: {response}")
 
