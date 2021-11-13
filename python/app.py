@@ -5,6 +5,7 @@ from sys import version
 import tempfile
 import uuid
 import json
+import traceback
 from austin_heller_repo.threading import Semaphore
 from austin_heller_repo.git_manager import GitManager
 from austin_heller_repo.component_manager import ComponentManagerApiInterface
@@ -66,6 +67,7 @@ def get_component_output(component_uuid: str, json_data_array: List[Dict], compo
 
     script_arguments = []  # type: List[str]
     configuration_argument_json = {
+        "component_uuid": component_uuid,
         "component_manager_api_base_url": component_manager_api_base_url
     }
     script_arguments.append(f"\"{json.dumps(configuration_argument_json)}\"")
@@ -153,8 +155,9 @@ def docker():
 
     except Exception as ex:
         output = {
-            "data": None,
-            "exception": str(ex)
+            "is_successful": False,
+            "response": None,
+            "exception": f"{ex}\n{traceback.format_exc()}"
         }
 
     return output
