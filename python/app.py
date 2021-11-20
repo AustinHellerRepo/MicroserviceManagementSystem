@@ -42,7 +42,7 @@ def get_component_output(component_uuid: str, json_data_array: List[Dict], compo
 
     # pull the component specifications if they have never been pulled before
     if component_uuid not in component_specification_per_component_uuid.keys():
-        component_specification = component_manager_api_interface.get_docker_component_specification_by_component_uuid(
+        component_specification = component_manager_api_interface.get_component_specification_by_component_uuid(
             component_uuid=component_uuid
         )
         component_specification_per_component_uuid[component_uuid] = component_specification
@@ -55,6 +55,8 @@ def get_component_output(component_uuid: str, json_data_array: List[Dict], compo
     temp_directory = temp_directory_per_component_uuid[component_uuid]
 
     component_specification = component_specification_per_component_uuid[component_uuid]
+
+    print(f"component_specification: {component_specification}")
 
     git_manager = GitManager(
         git_directory_path=temp_directory.name
@@ -86,6 +88,7 @@ def get_component_output(component_uuid: str, json_data_array: List[Dict], compo
         output_bytes = vccpi.get_output()
 
     output_string = output_bytes.decode()
+    print(f"output_string: {output_string}")
     output_json = json.loads(output_string)
 
     return output_json
@@ -157,7 +160,7 @@ def docker():
         output = {
             "is_successful": False,
             "response": None,
-            "exception": f"{ex}\n{traceback.format_exc()}"
+            "error": f"{ex}\n{traceback.format_exc()}"
         }
 
     return output
